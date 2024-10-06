@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://trello-clone-steel-three.vercel.app/'], // Update with your frontend domain
+    origin: ['http://localhost:3000', 'https://trello-clone-rg3x.vercel.app'], // Update with your frontend domain
     credentials: true, // Enable if you need to send cookies with requests
   })
 );
