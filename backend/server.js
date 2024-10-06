@@ -9,6 +9,7 @@ const session = require('express-session'); // For session handling
 const authRoutes = require('./routes/Auth.js'); // Ensure correct casing
 const taskRoutes = require('./routes/tasks.js'); // Import task routes
 
+
 const app = express();
 
 // Middleware
@@ -36,7 +37,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Passport Config
-require('./config/passport')(passport);
+const configurePassport = require('./config/passport.js'); // Import the configuration function
+configurePassport(passport); // Pass Passport to the configuration function
 
 // Routes
 app.use('/api/auth', authRoutes);
