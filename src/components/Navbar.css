@@ -1,0 +1,26 @@
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2e4e4c;
+    padding: 1rem;
+    color: #fff;
+  }
+  
+  .app-title {
+    margin: 0;
+  }
+  
+  .logout-button {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background-color: #d32f2f;
+  }
+  

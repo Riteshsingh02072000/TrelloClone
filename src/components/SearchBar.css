@@ -1,0 +1,13 @@
+/* src/components/SearchBar.css */
+.search-bar {
+    padding: 1rem;
+    background-color: #f5f5f5;
+  }
+  
+  .search-bar input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
