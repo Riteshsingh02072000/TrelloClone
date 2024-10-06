@@ -1,36 +1,31 @@
 import React, { useState } from 'react';
-import './DashBoard.css';
-// import Navbar from './components/Navbar';
-// import SearchBar from './components/SearchBar';
+import './DashBoard.css'; // Ensure the correct casing of the file name
 import Column from './Column';
+import AddTaskForm from './AddTaskForm';
+import TaskDetailsModal from './TaskDetail'; // Import the TaskDetailsModal component
 import { DragDropContext } from 'react-beautiful-dnd';
 
 const initialData = {
   tasks: {
     1: { id: 1, title: 'Task One', description: 'This is task one' },
     2: { id: 2, title: 'Task Two', description: 'This is task two' },
-    3: { id: 3, title: 'Task Three', description: 'This is task three' },
-    4: { id: 4, title: 'Task 4', description: 'This is task three' },
-    5: { id: 5, title: 'Task 5', description: 'This is task three' },
-    6: { id: 6, title: 'Task Three', description: 'This is task three' },
-    7: { id: 7, title: 'Task 4', description: 'This is task three' },
-    8: { id: 8, title: 'Task 5', description: 'This is task three' },
+    3: { id: 3, title: 'Task Three', description: 'This is task three' }
   },
   columns: {
-    'todo': {
+    todo: {
       id: 'todo',
       title: 'To-do',
-      taskIds: [1,2,3,4,5,6,7,8],
+      taskIds: [1],
     },
-    'inprogress': {
+    inprogress: {
       id: 'inprogress',
       title: 'In Progress',
-      taskIds: [],
+      taskIds: [2],
     },
-    'done': {
+    done: {
       id: 'done',
       title: 'Done',
-      taskIds: [],
+      taskIds: [3],
     },
   },
   columnOrder: ['todo', 'inprogress', 'done'],
@@ -39,6 +34,8 @@ const initialData = {
 function Dashboard() {
   const [data, setData] = useState(initialData);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showAddTaskForm, setShowAddTaskForm] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null); // State for the selected task
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -104,14 +101,83 @@ function Dashboard() {
     }
   };
 
-  const handleSearch = (term) => {
-    setSearchTerm(term);
+  const handleAddTask = (newTask) => {
+    // Generate a unique ID for the new task
+    const newTaskId = Date.now();
+    const updatedTasks = {
+      ...data.tasks,
+      [newTaskId]: {
+        id: newTaskId,
+        title: newTask.title,
+        description: newTask.description,
+      },
+    };
+
+    const updatedColumns = {
+      ...data.columns,
+      todo: {
+        ...data.columns.todo,
+        taskIds: [...data.columns.todo.taskIds, newTaskId],
+      },
+    };
+
+    setData({
+      ...data,
+      tasks: updatedTasks,
+      columns: updatedColumns,
+    });
+  };
+
+  const handleEditTask = (task) => {
+    // Implement edit functionality here
+    console.log('Edit task:', task);
+  };
+
+  const handleDeleteTask = (taskId) => {
+    // Remove the task from tasks and update columns
+    const updatedTasks = { ...data.tasks };
+    delete updatedTasks[taskId];
+
+    const updatedColumns = { ...data.columns };
+    for (let column of Object.values(updatedColumns)) {
+      column.taskIds = column.taskIds.filter((id) => id !== taskId);
+    }
+
+    setData({
+      ...data,
+      tasks: updatedTasks,
+      columns: updatedColumns,
+    });
+  };
+
+  const handleViewTask = (task) => {
+    // Set the selected task to display in the modal
+    setSelectedTask(task);
+  };
+
+  const closeTaskDetailsModal = () => {
+    setSelectedTask(null);
   };
 
   return (
-    <div className="Dashboard">
-      {/* <Navbar /> */}
-      {/* <SearchBar onSearch={handleSearch} /> */}
+    <div className="dashboard">
+      <div className="dashboard-header">
+        <button
+          className="add-task-button"
+          onClick={() => setShowAddTaskForm(true)}
+        >
+          Add Task
+        </button>
+      </div>
+      {showAddTaskForm && (
+        <AddTaskForm
+          onClose={() => setShowAddTaskForm(false)}
+          onAddTask={handleAddTask}
+        />
+      )}
+      {selectedTask && (
+        <TaskDetailsModal task={selectedTask} onClose={closeTaskDetailsModal} />
+      )}
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="columns-container">
           {data.columnOrder.map((columnId) => {
@@ -128,6 +194,9 @@ function Dashboard() {
                 columnId={column.id}
                 column={column}
                 tasks={tasks}
+                onEditTask={handleEditTask}
+                onDeleteTask={handleDeleteTask}
+                onViewTask={handleViewTask}
               />
             );
           })}

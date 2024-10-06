@@ -1,0 +1,69 @@
+/* src/components/AddTaskForm.css */
+.add-task-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .add-task-form {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 400px;
+  }
+  
+  .add-task-form h3 {
+    margin-top: 0;
+  }
+  
+  .add-task-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-task-form input,
+  .add-task-form textarea {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .add-task-form textarea {
+    resize: vertical;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .submit-button,
+  .cancel-button {
+    background-color: #0079bf;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+  }
+  
+  .cancel-button {
+    background-color: #f44336;
+  }
+  
+  .submit-button:hover {
+    background-color: #026aa7;
+  }
+  
+  .cancel-button:hover {
+    background-color: #d32f2f;
+  }
+  
