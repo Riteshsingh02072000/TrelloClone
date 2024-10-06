@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const passport = require('./config/passport.js'); // Correct Import of Passport Module
+const passport = require('assport.js'); // Correct Import of Passport Module
 const session = require('express-session'); // For session handling
 const MongoStore = require('connect-mongo'); // For persistent session storage
 
