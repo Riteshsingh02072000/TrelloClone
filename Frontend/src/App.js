@@ -5,12 +5,15 @@ import Navbar from './components/Navbar';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
 import Dashboard from './components/DashBoard';
-import { AuthContext } from './components/AuthContext';
+import { AuthContext } from './components/AuthContext.js';
 import './App.css';
 
+
+// src/App.js
+
+
 function App() {
-  // const { isAuthenticated } = useContext(AuthContext);
-  const isAuthenticated = false;
+  const { isAuthenticated } = useContext(AuthContext); // Use useContext to get isAuthenticated
 
   return (
     <Router>

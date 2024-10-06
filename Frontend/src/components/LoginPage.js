@@ -1,21 +1,33 @@
-// src/components/LoginPage.js
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import { AuthContext } from './AuthContext';
+import axios from 'axios';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement your login logic here
-    // For now, we'll simulate a successful login
-    login(); // Update authentication status
-    navigate('/dashboard'); // Redirect to dashboard
+    try {
+      // Send login request to backend
+      const res = await axios.post('https://your-backend-url/api/auth/login', {
+        email,
+        password,
+      });
+
+      // Save the token in localStorage
+      localStorage.setItem('token', res.data.token);
+      login(); // Update authentication status
+      navigate('/dashboard'); // Redirect to dashboard
+    } catch (err) {
+      console.error(err);
+      setError('Invalid Credentials');
+    }
   };
 
   return (

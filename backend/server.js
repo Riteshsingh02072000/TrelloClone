@@ -4,31 +4,43 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const passport = require('passport'); // Import Passport
-const session = require('express-session');
+const session = require('express-session'); // For session handling
 
-const authRoutes = require('./routes/Auth.js');
+const authRoutes = require('./routes/Auth.js'); // Ensure correct casing
+const taskRoutes = require('./routes/tasks.js'); // Import task routes
 
 const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ['http://localhost:3000', 'https://trello-clone-steel-three.vercel.app/'], // Update with your frontend domain
+    credentials: true, // Enable if you need to send cookies with requests
+  })
+);
 
+// Session Middleware (required for Passport)
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || 'your-session-secret',
+    secret:
+      process.env.SESSION_SECRET ||
+      '34392719b4eef1d421dd77db4a9071322dcfa6798c15da1a58b7e1c29a0e090128934d050db8171b5ca016c330a2e0a07bba48faf3adea705d1e6157743bd815',
     resave: false,
     saveUninitialized: false,
   })
 );
 
+// Initialize Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api/auth', authRoutes);
+// Passport Config
+require('./config/passport')(passport);
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes);
 
 // Database Connection
 mongoose
