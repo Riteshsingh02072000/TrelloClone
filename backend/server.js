@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const passport = require('passport'); // Import Passport
+const passport = require('./config/passport.js'); // Import Passport
 const session = require('express-session'); // For session handling
 
 const authRoutes = require('./routes/Auth.js'); // Ensure correct casing
